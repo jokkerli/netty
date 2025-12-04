@@ -413,11 +413,11 @@ public abstract class AbstractChannel extends DefaultAttributeMap implements Cha
             }
 
             AbstractChannel.this.eventLoop = eventLoop;
-
-            if (eventLoop.inEventLoop()) {
+            // 所有IO操作都需要在eventLoop中执行，保证线程安全
+            if (eventLoop.inEventLoop()) { // 判断当前执行代码的线程是否在当前的EventLoop当中，是的话，直接执行
                 register0(promise);
             } else {
-                try {
+                try { // 不是的话，封装成任务提交后交给eventLoop去执行
                     eventLoop.execute(new OneTimeTask() {
                         @Override
                         public void run() {
@@ -443,11 +443,11 @@ public abstract class AbstractChannel extends DefaultAttributeMap implements Cha
                     return;
                 }
                 boolean firstRegistration = neverRegistered;
-                doRegister();
+                doRegister(); // 真正执行操作，将原生的Java NIO socket 注册到对应的多路复用器 selector 上
                 neverRegistered = false;
                 registered = true;
-                safeSetSuccess(promise);
-                pipeline.fireChannelRegistered();
+                safeSetSuccess(promise); // 设置promise 结果
+                pipeline.fireChannelRegistered(); // 触发channel注册事件
                 // Only fire a channelActive if the channel has never been registered. This prevents firing
                 // multiple channel actives if the channel is deregistered and re-registered.
                 if (firstRegistration && isActive()) {

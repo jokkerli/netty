@@ -301,7 +301,7 @@ public abstract class AbstractBootstrap<B extends AbstractBootstrap<B, C>, C ext
             return promise;
         }
     }
-
+    // 初始化Channel和注册Channel
     final ChannelFuture initAndRegister() {
         final Channel channel = channelFactory().newChannel();
         try {
@@ -312,7 +312,7 @@ public abstract class AbstractBootstrap<B extends AbstractBootstrap<B, C>, C ext
             return new DefaultChannelPromise(channel, GlobalEventExecutor.INSTANCE).setFailure(t);
         }
 
-        ChannelFuture regFuture = group().register(channel);
+        ChannelFuture regFuture = group().register(channel); // 注册，
         if (regFuture.cause() != null) {
             if (channel.isRegistered()) {
                 channel.close();

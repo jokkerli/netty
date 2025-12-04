@@ -177,7 +177,7 @@ public class ServerBootstrap extends AbstractBootstrap<ServerBootstrap, ServerCh
         p.addLast(new ChannelInitializer<Channel>() {
             @Override
             public void initChannel(Channel ch) throws Exception {
-                ChannelPipeline pipeline = ch.pipeline();
+                ChannelPipeline pipeline = ch.pipeline(); // 什么情况下会走到这里呢？ intiChannel，主要就是添加handler到Channel当中，还额外添加一个ServerBootStrapAcceptor
                 ChannelHandler handler = handler();
                 if (handler != null) {
                     pipeline.addLast(handler);
