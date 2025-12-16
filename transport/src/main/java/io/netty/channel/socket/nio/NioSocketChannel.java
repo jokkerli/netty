@@ -116,7 +116,7 @@ public class NioSocketChannel extends AbstractNioByteChannel implements io.netty
     protected SocketChannel javaChannel() {
         return (SocketChannel) super.javaChannel();
     }
-
+//    判断当前channel是否活跃，tcp连接是否处于活动状态
     @Override
     public boolean isActive() {
         SocketChannel ch = javaChannel();

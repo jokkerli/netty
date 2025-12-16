@@ -815,9 +815,9 @@ final class DefaultChannelPipeline implements ChannelPipeline {
     @Override
     public ChannelPipeline fireChannelActive() {
         head.fireChannelActive();
-
+//        激活之后，调用read方法，会触发NIO 注册OP_read或者op_accept感兴趣事件
         if (channel.config().isAutoRead()) {
-            channel.read();
+            channel.read(); // 这里的channel.read实际上是注册accept或者read事件
         }
 
         return this;

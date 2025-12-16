@@ -402,17 +402,17 @@ public abstract class AbstractChannel extends DefaultAttributeMap implements Cha
             if (eventLoop == null) {
                 throw new NullPointerException("eventLoop");
             }
-            if (isRegistered()) {
+            if (isRegistered()) { // 判断是否已经注册完毕
                 promise.setFailure(new IllegalStateException("registered to an event loop already"));
                 return;
             }
-            if (!isCompatible(eventLoop)) {
+            if (!isCompatible(eventLoop)) { // 判断eventLoop是否相容
                 promise.setFailure(
                         new IllegalStateException("incompatible event loop type: " + eventLoop.getClass().getName()));
                 return;
             }
 
-            AbstractChannel.this.eventLoop = eventLoop;
+            AbstractChannel.this.eventLoop = eventLoop;  // netty channel和eventLoop进行绑定，也就是注册
             // 所有IO操作都需要在eventLoop中执行，保证线程安全
             if (eventLoop.inEventLoop()) { // 判断当前执行代码的线程是否在当前的EventLoop当中，是的话，直接执行
                 register0(promise);
@@ -451,7 +451,7 @@ public abstract class AbstractChannel extends DefaultAttributeMap implements Cha
                 // Only fire a channelActive if the channel has never been registered. This prevents firing
                 // multiple channel actives if the channel is deregistered and re-registered.
                 if (firstRegistration && isActive()) {
-                    pipeline.fireChannelActive();
+                    pipeline.fireChannelActive(); // 这里对于服务端和客户端是不一样的，服务端是registered在bind，所以不会active。客户端就不一样了。todo 研究一下客户端
                 }
             } catch (Throwable t) {
                 // Close the channel directly to avoid FD leak.

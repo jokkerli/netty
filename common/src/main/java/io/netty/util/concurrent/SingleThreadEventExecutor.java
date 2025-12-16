@@ -717,7 +717,7 @@ public abstract class SingleThreadEventExecutor extends AbstractScheduledEventEx
 
     // ScheduledExecutorService implementation
 
-    private static final long SCHEDULE_PURGE_INTERVAL = TimeUnit.SECONDS.toNanos(1);
+    private static final long SCHEDULE_PURGE_INTERVAL = TimeUnit.SECONDS.toNanos(1); // 1秒的时间。
 
     private void startThread() {
         if (STATE_UPDATER.get(this) == ST_NOT_STARTED) {

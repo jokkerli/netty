@@ -21,7 +21,7 @@ import java.util.AbstractSet;
 import java.util.Iterator;
 
 final class SelectedSelectionKeySet extends AbstractSet<SelectionKey> {
-
+//   双数组双缓冲
     private SelectionKey[] keysA;
     private int keysASize;
     private SelectionKey[] keysB;

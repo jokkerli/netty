@@ -356,7 +356,7 @@ public abstract class AbstractNioChannel extends AbstractChannel {
     }
 
     @Override
-    protected void doBeginRead() throws Exception {
+    protected void doBeginRead() throws Exception { // 开始读取
         // Channel.read() or ChannelHandlerContext.read() was called
         if (inputShutdown) {
             return;

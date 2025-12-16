@@ -31,7 +31,7 @@ public abstract class MultithreadEventExecutorGroup extends AbstractEventExecuto
 
     private final EventExecutor[] children;
     private final AtomicInteger childIndex = new AtomicInteger();
-    private final AtomicInteger terminatedChildren = new AtomicInteger();
+    private final AtomicInteger  terminatedChildren = new AtomicInteger();
     private final Promise<?> terminationFuture = new DefaultPromise(GlobalEventExecutor.INSTANCE);
     private final EventExecutorChooser chooser;
 
